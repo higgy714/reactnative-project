@@ -21,6 +21,8 @@ const mapDispatchToProps = {
 
 function RenderCampsite(props) {
 
+    const recognizeComment = ({ dx }) => (dx > 200) ? true : false;
+
     const { campsite } = props;
 
     const view = React.createRef();
@@ -53,6 +55,9 @@ function RenderCampsite(props) {
                     ],
                     { cancelable: false }
                 );
+            }
+            else if (recognizeComment(gestureState)) {
+                props.onShowModal();
             }
             return true;
         }
@@ -157,8 +162,7 @@ class CampsiteInfo extends Component {
         this.setState({ showModal: !this.state.showModal })
     }
 
-    handleComment(campsiteId, rating, author, text) {
-        //this.props.postComment(campsiteId, author, rating, text);
+    handleComment(campsiteId) {
         this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text);
         this.toggleModal();
     }
